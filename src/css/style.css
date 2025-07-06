@@ -1,14 +1,11 @@
 :root {
   --font-body: Arial, Helvetica, sans-serif;
   --font-headline: Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  /* colors */
   --primary-color: #f0a868;
   --secondary-color: #525b0f;
   --tertiary-color: #8a470c;
   --light-grey: #d0d0d0;
   --dark-grey: #303030;
-
-  /* sizes */
   --font-base: 18px;
   --small-font: 0.8em;
   --large-font: 1.2em;
@@ -28,25 +25,23 @@ body {
 
 img {
   max-width: 100%;
+  height: auto;
 }
 
+/* Header layout */
 header {
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem;
+  align-items: center;
+  padding: 0.5rem 1rem;
 }
 
-p {
-  padding: 0.75rem;
-}
-
+/* Logo block */
 .logo {
-  line-height: 60px;
-  width: 245px;
-  overflow: hidden;
   display: flex;
+  align-items: center;
   font-size: 30px;
-  text-align: right;
+  line-height: 60px;
   font-family: var(--font-headline);
 }
 
@@ -57,82 +52,74 @@ p {
 
 .logo a {
   text-decoration: none;
-  color: var(--font-body);
+  color: var(--dark-grey);
 }
 
+/* ✅ Cart styles */
+.cart {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.cart a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: var(--dark-grey);
+  font-size: var(--small-font);
+}
+
+.cart-icon {
+  width: 22px;
+  height: auto;
+  max-height: 32px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.cart:hover .cart-icon {
+  fill: gray;
+}
+
+/* Hero image and logo badge */
 .hero {
   position: relative;
 }
 
 .hero .logo {
   position: absolute;
-  left: calc(50% - 60px);
-  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 1rem;
   background-color: white;
+  padding: 0.5em;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .logo--square {
-  font-size: var(--small-font);
-  width: 110px;
-  height: 80px;
-
+  display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  box-shadow: 1px 1px 4px var(--light-grey);
-  justify-content: center;
   align-items: center;
-  line-height: 1;
+  justify-content: center;
+  font-size: var(--small-font);
+  width: 100px;
+  text-align: center;
+  line-height: 1.2;
 }
 
 .logo--square img {
-  width: 90px;
-  height: 90px;
-  margin-top: -1.3em;
+  width: 40px;
+  height: auto;
+  margin-bottom: 0.3em;
 }
 
-.logo--square > div {
-  margin-top: -1.7em;
+.logo--square>div {
+  margin-top: -0.5em;
 }
 
-/* utility classes */
-.highlight {
-  color: var(--tertiary-color);
-}
-
-button {
-  padding: 0.5em 2em;
-  background-color: var(--secondary-color);
-  color: white;
-  margin: auto;
-  display: block;
-  border: 0;
-  font-size: var(--large-font);
-  cursor: pointer;
-}
-
-.divider {
-  border-bottom: 2px solid var(--primary-color);
-}
-
-/* End utility classes */
-
-/* Cart icon styles */
-.cart {
-  padding-top: 1em;
-  position: relative;
-  text-align: center;
-}
-
-.cart svg {
-  width: 25px;
-}
-
-.cart:hover svg {
-  fill: gray;
-}
-
-/* End cart icon styles */
-
+/* Mission banner */
 .mission {
   position: absolute;
   top: 1rem;
@@ -149,8 +136,10 @@ button {
   margin: 0 auto;
   width: 50%;
   text-align: center;
+  padding: 0.75rem;
 }
 
+/* Product section */
 .products {
   margin-top: 2rem;
   padding: 1rem;
@@ -161,6 +150,7 @@ button {
   flex-flow: row wrap;
   list-style-type: none;
   justify-content: center;
+  gap: 1rem;
 }
 
 .product-list a {
@@ -168,13 +158,12 @@ button {
   color: var(--dark-grey);
 }
 
-/* Styles for product lists */
 .product-card {
-  flex: 1 1 45%;
-  margin: 0.25em;
+  flex: 1 1 250px;
   padding: 0.5em;
   border: 1px solid var(--light-grey);
   max-width: 250px;
+  text-align: center;
 }
 
 .product-card h2,
@@ -191,8 +180,7 @@ button {
   font-size: 1em;
 }
 
-/* End product list card */
-
+/* Product detail page */
 .product-detail {
   padding: 1em;
   max-width: 500px;
@@ -203,12 +191,11 @@ button {
   width: 100%;
 }
 
-/* Start cart list card styles */
+/* Cart page styles */
 .cart-card {
   display: grid;
   grid-template-columns: 25% auto 15%;
   font-size: var(--small-font);
-  /* max-height: 120px; */
   align-items: center;
 }
 
@@ -241,6 +228,27 @@ button {
   grid-column: 3;
 }
 
+/* Utility styles */
+.highlight {
+  color: var(--tertiary-color);
+}
+
+button {
+  padding: 0.5em 2em;
+  background-color: var(--secondary-color);
+  color: white;
+  margin: auto;
+  display: block;
+  border: 0;
+  font-size: var(--large-font);
+  cursor: pointer;
+}
+
+.divider {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+/* Responsive */
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
@@ -260,4 +268,5 @@ button {
 footer {
   font-size: var(--small-font);
   padding: 1em;
+  text-align: center;
 }
