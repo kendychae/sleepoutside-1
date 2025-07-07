@@ -1,23 +1,43 @@
-// wrapper for querySelector...returns matching element
+// Wrapper for querySelector...returns matching element
 export function qs(selector, parent = document) {
   return parent.querySelector(selector);
 }
-// or a more concise version if you are into that sort of thing:
-// export const qs = (selector, parent = document) => parent.querySelector(selector);
 
-// retrieve data from localstorage
+// Retrieve data from localStorage, returns null if not found
 export function getLocalStorage(key) {
-  return JSON.parse(localStorage.getItem(key));
+  const data = localStorage.getItem(key);
+  try {
+    return data ? JSON.parse(data) : null;
+  } catch (e) {
+    console.error("Error parsing localStorage data for key:", key, e);
+    return null;
+  }
 }
-// save data to local storage
+
+// Save data to localStorage
 export function setLocalStorage(key, data) {
   localStorage.setItem(key, JSON.stringify(data));
 }
-// set a listener for both touchend and click
+
+// Set a listener for both touchend and click, avoiding duplicate calls
 export function setClick(selector, callback) {
-  qs(selector).addEventListener("touchend", (event) => {
+  const element = qs(selector);
+  if (!element) return;
+
+  let called = false;
+  element.addEventListener("touchend", (event) => {
     event.preventDefault();
-    callback();
+    if (!called) {
+      called = true;
+      callback(event);
+      setTimeout(() => { called = false; }, 300);
+    }
   });
-  qs(selector).addEventListener("click", callback);
+  element.addEventListener("click", (event) => {
+    if (!called) {
+      called = true;
+      callback(event);
+      setTimeout(() => { called = false; }, 300);
+    }
+  });
 }

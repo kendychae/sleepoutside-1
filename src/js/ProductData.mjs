@@ -9,14 +9,18 @@ function convertToJson(res) {
 export default class ProductData {
   constructor(category) {
     this.category = category;
-    // Use absolute path based on current origin (so it works on GitHub Pages too)
-    this.path = `${window.location.origin}/sleepoutside-1/json/${this.category}.json`;
+    // Use relative path so it works locally and on GitHub Pages
+    this.path = `../json/${this.category}.json`;
   }
 
-  getData() {
-    return fetch(this.path)
-      .then(convertToJson)
-      .then((data) => data);
+  async getData() {
+    try {
+      const res = await fetch(this.path);
+      return await convertToJson(res);
+    } catch (err) {
+      console.error("Failed to fetch product data:", err);
+      return [];
+    }
   }
 
   async findProductById(id) {

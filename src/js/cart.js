@@ -1,43 +1,52 @@
-import { getLocalStorage, qs } from "./utils.mjs";
+import { getLocalStorage } from "./utils.mjs";
 
-const imageBasePath = "/sleepoutside-1/src/images/";
+// Adjust this if your images folder moves
+const imageBasePath = "../images/";
 
+// Fixes image paths to be relative to the cart page
 function fixImagePath(relativePath) {
   if (!relativePath) return "";
-  return relativePath.replace(/^(\.\.\/)+images\//, imageBasePath);
+  // Remove any leading ../ from the path and prepend imageBasePath
+  return imageBasePath + relativePath.replace(/^(\.\.\/)+images\//, "");
 }
 
+// Renders the cart contents to the page
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
+  const productList = document.querySelector(".product-list");
+
+  if (!productList) return;
 
   if (cartItems.length === 0) {
-    document.querySelector(".product-list").innerHTML = "<p>Your cart is empty.</p>";
+    productList.innerHTML = "<p>Your cart is empty.</p>";
     updateCartBadge(0);
     return;
   }
 
-  const htmlItems = cartItems.map((item) => cartItemTemplate(item));
-  document.querySelector(".product-list").innerHTML = htmlItems.join("");
-
+  const htmlItems = cartItems.map(cartItemTemplate).join("");
   const total = cartItems.reduce(
     (sum, item) => sum + Number(item.FinalPrice) * (item.Quantity || 1),
     0
   );
-  document.querySelector(".product-list").insertAdjacentHTML(
-    "beforeend",
-    `<li class="cart-total">Total: $${total.toFixed(2)}</li>`
-  );
+
+  productList.innerHTML = `
+    ${htmlItems}
+    <li class="cart-total">Total: $${total.toFixed(2)}</li>
+  `;
 
   updateCartBadge(cartItems);
 }
 
+// Template for each cart item
 function cartItemTemplate(item) {
+  // Build product page link relative to cart page
+  const productLink = `../product_pages/index.html?id=${encodeURIComponent(item.Id)}`;
   return `
     <li class="cart-card divider">
-      <a href="/sleepoutside-1/product_pages/index.html?id=${item.Id}" class="cart-card__image">
+      <a href="${productLink}" class="cart-card__image">
         <img src="${fixImagePath(item.Image)}" alt="${item.Name}" />
       </a>
-      <a href="/sleepoutside-1/product_pages/index.html?id=${item.Id}">
+      <a href="${productLink}">
         <h2 class="card__name">${item.Name}</h2>
       </a>
       <p class="cart-card__color">${item.Colors?.[0]?.ColorName || "N/A"}</p>
@@ -47,7 +56,7 @@ function cartItemTemplate(item) {
   `;
 }
 
-// Update superscript badge on backpack icon
+// Updates the cart badge in the header
 function updateCartBadge(cartItems) {
   const count = Array.isArray(cartItems)
     ? cartItems.reduce((sum, item) => sum + (item.Quantity || 1), 0)
@@ -59,4 +68,5 @@ function updateCartBadge(cartItems) {
   }
 }
 
+// Initialize cart rendering
 renderCartContents();

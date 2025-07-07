@@ -1,11 +1,14 @@
 import { getLocalStorage, setLocalStorage, qs } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
 
-const imageBasePath = "/sleepoutside-1/src/images/";
+// Adjust this if your images folder moves
+const imageBasePath = "../images/";
 
+// Fixes image paths to be relative to the product page
 function fixImagePath(relativePath) {
   if (!relativePath) return "";
-  return relativePath.replace(/^(\.\.\/)+images\//, imageBasePath);
+  // Remove any leading ../ from the path and prepend imageBasePath
+  return imageBasePath + relativePath.replace(/^(\.\.\/)+images\//, "");
 }
 
 const params = new URLSearchParams(window.location.search);
@@ -36,19 +39,25 @@ async function addToCartHandler(e) {
 
 async function displayProductDetails() {
   const product = await dataSource.findProductById(productId);
+  const detailContainer = document.querySelector(".product-detail");
+  if (!detailContainer) return;
+
   if (!product) {
-    document.querySelector(".product-detail").innerHTML = "<p>Product not found.</p>";
+    detailContainer.innerHTML = "<p>Product not found.</p>";
     return;
   }
 
-  document.querySelector(".product-detail").innerHTML = `
+  detailContainer.innerHTML = `
     <h3>${product.Name}</h3>
     <img src="${fixImagePath(product.Image)}" alt="${product.Name}">
     <p class="price">$${product.FinalPrice}</p>
     <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
   `;
 
-  qs("#addToCart").addEventListener("click", addToCartHandler);
+  const addToCartBtn = qs("#addToCart");
+  if (addToCartBtn) {
+    addToCartBtn.addEventListener("click", addToCartHandler);
+  }
 }
 
 function updateCartBadge() {
@@ -61,5 +70,6 @@ function updateCartBadge() {
   }
 }
 
+// Initialize
 displayProductDetails();
 updateCartBadge();
