@@ -56,15 +56,13 @@ async function displayProductDetails() {
     return;
   }
 
-  // Only render if the container is empty (so you can use static HTML or JS)
-  if (!detailContainer.innerHTML.trim()) {
-    detailContainer.innerHTML = `
-      <h3>${product.Name}</h3>
-      <img src="${fixImagePath(product.Image)}" alt="${product.Name}">
-      <p class="price">$${product.FinalPrice}</p>
-      <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
-    `;
-  }
+  // Always render product details (remove the check for empty container)
+  detailContainer.innerHTML = `
+    <h3>${product.Name}</h3>
+    <img src="${fixImagePath(product.Image)}" alt="${product.Name}">
+    <p class="price">$${product.FinalPrice}</p>
+    <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
+  `;
 
   // Always attach the event handler
   const addToCartBtn = qs("#addToCart");
