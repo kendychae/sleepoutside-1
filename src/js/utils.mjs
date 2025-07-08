@@ -41,3 +41,16 @@ export function setClick(selector, callback) {
     }
   });
 }
+
+// Get parameter from URL
+export function getParam(param) {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  return urlParams.get(param);
+}
+
+// Load header and footer (placeholder for now)
+export function loadHeaderFooter() {
+  // This would load header and footer if needed
+  // For now, it's just a placeholder
+}

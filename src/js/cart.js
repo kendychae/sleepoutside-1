@@ -26,7 +26,7 @@ function renderCartContents() {
   const htmlItems = cartItems.map(cartItemTemplate).join("");
   const total = cartItems.reduce(
     (sum, item) => sum + Number(item.FinalPrice) * (item.Quantity || 1),
-    0
+    0,
   );
 
   productList.innerHTML = `

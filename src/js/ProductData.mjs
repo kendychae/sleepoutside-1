@@ -1,3 +1,5 @@
+const baseURL = import.meta.env.VITE_SERVER_URL;
+
 function convertToJson(res) {
   if (res.ok) {
     return res.json();
@@ -7,16 +9,15 @@ function convertToJson(res) {
 }
 
 export default class ProductData {
-  constructor(category) {
-    this.category = category;
-    // Use relative path so it works locally and on GitHub Pages
-    this.path = `../json/${this.category}.json`;
+  constructor() {
+    // Remove category and path from constructor
   }
 
-  async getData() {
+  async getData(category) {
     try {
-      const res = await fetch(this.path);
-      return await convertToJson(res);
+      const response = await fetch(`${baseURL}products/search/${category}`);
+      const data = await convertToJson(response);
+      return data.Result;
     } catch (err) {
       console.error("Failed to fetch product data:", err);
       return [];
@@ -24,8 +25,13 @@ export default class ProductData {
   }
 
   async findProductById(id) {
-    const productsData = await this.getData();
-    const products = Array.isArray(productsData) ? productsData : productsData.Result || [];
-    return products.find((item) => item.Id === id);
+    try {
+      const response = await fetch(`${baseURL}product/${id}`);
+      const data = await convertToJson(response);
+      return data.Result;
+    } catch (err) {
+      console.error("Failed to fetch product by ID:", err);
+      return null;
+    }
   }
 }

@@ -1,21 +1,12 @@
-import { getLocalStorage, setLocalStorage, qs } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, qs, getParam } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
 
-const imageBasePath = "../images/";
-
-function fixImagePath(relativePath) {
-  if (!relativePath) return "";
-  return imageBasePath + relativePath.replace(/^(\.\.\/)+images\//, "");
-}
-
-const params = new URLSearchParams(window.location.search);
-const productId = params.get("id");
-
-const dataSource = new ProductData("tents");
+const productId = getParam("id");
+const dataSource = new ProductData();
 
 function addProductToCart(product) {
   let cart = getLocalStorage("so-cart") || [];
-  const existingIndex = cart.findIndex(item => item.Id === product.Id);
+  const existingIndex = cart.findIndex((item) => item.Id === product.Id);
   if (existingIndex !== -1) {
     cart[existingIndex].Quantity = (cart[existingIndex].Quantity || 1) + 1;
   } else {
@@ -37,17 +28,9 @@ async function addToCartHandler(e) {
 }
 
 async function displayProductDetails() {
-  // Try to get productId from URL, fallback to button's data-id
-  let id = productId;
-  if (!id) {
-    const addToCartBtn = document.querySelector("#addToCart");
-    if (addToCartBtn) {
-      id = addToCartBtn.dataset.id;
-    }
-  }
-  if (!id) return;
+  if (!productId) return;
 
-  const product = await dataSource.findProductById(id);
+  const product = await dataSource.findProductById(productId);
   const detailContainer = document.querySelector(".product-detail");
   if (!detailContainer) return;
 
@@ -56,18 +39,22 @@ async function displayProductDetails() {
     return;
   }
 
-  // Always render product details (remove the check for empty container)
+  // Use the API's image structure
+  const imageUrl =
+    product.Images?.PrimaryLarge || product.Images?.PrimaryMedium || "";
+
   detailContainer.innerHTML = `
-    <h3>${product.Name}</h3>
-    <img src="${fixImagePath(product.Image)}" alt="${product.Name}">
+    <h3>${product.Brand?.Name || ""}</h3>
+    <h2>${product.Name}</h2>
+    <img src="${imageUrl}" alt="${product.Name}">
     <p class="price">$${product.FinalPrice}</p>
+    <p class="description">${product.DescriptionHtmlSimple || ""}</p>
     <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
   `;
 
-  // Always attach the event handler
   const addToCartBtn = qs("#addToCart");
   if (addToCartBtn) {
-    addToCartBtn.removeEventListener("click", addToCartHandler); // Prevent double
+    addToCartBtn.removeEventListener("click", addToCartHandler);
     addToCartBtn.addEventListener("click", addToCartHandler);
   }
 }
