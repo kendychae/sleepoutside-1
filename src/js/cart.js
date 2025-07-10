@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, animateCartIcon } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, updateCartBadgeWithAnimation } from "./utils.mjs";
 
 // Adjust this if your images folder moves
 const imageBasePath = "../images/";
@@ -19,7 +19,7 @@ function renderCartContents() {
 
   if (cartItems.length === 0) {
     productList.innerHTML = "<p>Your cart is empty.</p>";
-    updateCartBadge(0);
+    updateCartBadgeWithAnimation();
     return;
   }
 
@@ -34,7 +34,7 @@ function renderCartContents() {
     <li class="cart-total">Total: $${total.toFixed(2)}</li>
   `;
 
-  updateCartBadge(cartItems);
+  updateCartBadgeWithAnimation();
   
   // Add event listeners for remove buttons and quantity buttons
   addRemoveListeners();
@@ -66,17 +66,7 @@ function cartItemTemplate(item) {
   `;
 }
 
-// Updates the cart badge in the header
-function updateCartBadge(cartItems) {
-  const count = Array.isArray(cartItems)
-    ? cartItems.reduce((sum, item) => sum + (item.Quantity || 1), 0)
-    : 0;
-  const badge = document.querySelector("#cart-count");
-  if (badge) {
-    badge.textContent = count;
-    badge.style.display = count > 0 ? "inline" : "none";
-  }
-}
+// Updates the cart badge in the header (now handled by utils.mjs)
 
 // Function to remove an item from the cart
 function removeFromCart(productId) {

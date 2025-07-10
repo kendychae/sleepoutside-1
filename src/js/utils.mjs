@@ -60,28 +60,22 @@ export function loadHeaderFooter() {
 
 // Animate cart icon when item is added
 export function animateCartIcon() {
-  const cartIcon = document.querySelector('.cart-icon');
-  const cartCount = document.querySelector('#cart-count');
-  
-  if (cartIcon) {
+  const cartIcons = document.querySelectorAll('.cart-icon');
+  cartIcons.forEach(icon => {
     // Add bounce animation to cart icon
-    cartIcon.classList.add('bounce');
+    icon.classList.add('bounce');
     
     // Remove animation class after animation completes
     setTimeout(() => {
-      cartIcon.classList.remove('bounce');
+      icon.classList.remove('bounce');
     }, 600);
-  }
-  
-  if (cartCount && cartCount.style.display !== 'none') {
-    // Add pulse animation to cart count
-    cartCount.classList.add('cart-count-pulse');
-    
-    // Remove animation class after animation completes
-    setTimeout(() => {
-      cartCount.classList.remove('cart-count-pulse');
-    }, 400);
-  }
+  });
+}
+
+// Enhanced cart badge update with animation
+export function updateCartBadgeWithAnimation() {
+  updateCartBadge();
+  animateCartIcon();
 }
 
 // Update cart badge function
@@ -92,6 +86,12 @@ function updateCartBadge() {
   if (badge) {
     badge.textContent = totalCount;
     badge.style.display = totalCount > 0 ? 'inline' : 'none';
+    
+    // Add animation to badge
+    badge.classList.add('animate');
+    setTimeout(() => {
+      badge.classList.remove('animate');
+    }, 600);
   }
 }
 

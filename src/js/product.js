@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, qs, getParam, alertMessage, animateCartIcon } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, qs, getParam, alertMessage, updateCartBadgeWithAnimation } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
 
 const productId = getParam("id");
@@ -13,7 +13,7 @@ function addProductToCart(product) {
     cart.push({ ...product, Quantity: 1 });
   }
   setLocalStorage("so-cart", cart);
-  updateCartBadge();
+  updateCartBadgeWithAnimation();
 }
 
 async function addToCartHandler(e) {
