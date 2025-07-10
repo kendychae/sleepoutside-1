@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, qs, getParam } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, qs, getParam, alertMessage } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
 
 const productId = getParam("id");
@@ -21,8 +21,9 @@ async function addToCartHandler(e) {
   const product = await dataSource.findProductById(id);
   if (product) {
     addProductToCart(product);
+    alertMessage(`${product.Name} has been added to your cart!`, false, 'success');
   } else {
-    alert("Product not found.");
+    alertMessage("Product not found.", true);
     console.error("Product not found for ID:", id);
   }
 }

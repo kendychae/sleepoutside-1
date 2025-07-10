@@ -12,20 +12,20 @@
       <div class="logo">
         <img src="images/noun_Tent_2517.svg" alt="tent image for logo" />
         <a href="index.html"> Sleep<span class="highlight">Outside</span></a>
-      </div>
-      <div class="cart">
-        <a href="src/cart/index.html">
-          <svg
-            class="cart-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 100 100"
-          >
-            <!-- your original <path> blocks stay here -->
-          </svg>
-          <span>My Cart</span>
-          <sup id="cart-count" style="display: none">0</sup>
-        </a>
-      </div>
+      </div>        <div class="cart">
+          <a href="src/cart/index.html" style="margin-right: 1rem;">
+            <svg
+              class="cart-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 100 100"
+            >
+              <!-- your original <path> blocks stay here -->
+            </svg>
+            <span>My Cart</span>
+            <sup id="cart-count" style="display: none">0</sup>
+          </a>
+          <a href="src/checkout/index.html" style="background-color: var(--primary-color); color: white; padding: 0.5rem 1rem; text-decoration: none; border-radius: 4px;">Checkout</a>
+        </div>
     </header>
 
     <main class="divider">
@@ -49,6 +49,11 @@
 
       <section class="products">
         <h2>Top Products</h2>
+        <div style="margin-bottom: 2rem; text-align: center;">
+          <a href="src/product_listing/index.html?category=tents" style="background-color: var(--primary-color); color: white; padding: 0.75rem 1.5rem; text-decoration: none; border-radius: 4px; margin: 0.5rem;">View All Tents</a>
+          <a href="src/product_listing/index.html?category=backpacks" style="background-color: var(--secondary-color); color: white; padding: 0.75rem 1.5rem; text-decoration: none; border-radius: 4px; margin: 0.5rem;">View All Backpacks</a>
+          <a href="src/product_listing/index.html?category=sleeping-bags" style="background-color: var(--tertiary-color); color: white; padding: 0.75rem 1.5rem; text-decoration: none; border-radius: 4px; margin: 0.5rem;">View All Sleeping Bags</a>
+        </div>
         <ul class="product-list">
           <li class="product-card">
             <a href="src/product_pages/marmot-ajax-3.html">
@@ -102,5 +107,6 @@
       &copy;2025 ⛺ SleepOutside ⛺ WDD 330 ⛺ BYU-Idaho for BYU-Pathway
       Worldwide Online
     </footer>
+    <script type="module" src="src/js/main.js"></script>
   </body>
 </html>

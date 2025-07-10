@@ -39,6 +39,7 @@ function renderCartContents() {
   // Add event listeners for remove buttons and quantity buttons
   addRemoveListeners();
   addQuantityListeners();
+  updateCheckoutButton();
 }
 
 // Template for each cart item
@@ -150,3 +151,24 @@ function addQuantityListeners() {
 
 // Initialize cart rendering
 renderCartContents();
+
+// Add functionality to enable/disable checkout button
+function updateCheckoutButton() {
+  const cartItems = getLocalStorage("so-cart") || [];
+  const checkoutLink = document.querySelector("#checkout-link");
+  
+  if (checkoutLink) {
+    if (cartItems.length === 0) {
+      checkoutLink.style.opacity = "0.5";
+      checkoutLink.style.pointerEvents = "none";
+      checkoutLink.textContent = "Cart Empty";
+    } else {
+      checkoutLink.style.opacity = "1";
+      checkoutLink.style.pointerEvents = "auto";
+      checkoutLink.textContent = "Proceed to Checkout";
+    }
+  }
+}
+
+// Call it initially and after cart changes
+updateCheckoutButton();

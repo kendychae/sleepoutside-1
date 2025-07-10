@@ -3,15 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sleep Outside | Product Listing</title>
+    <title>Sleep Outside | Order Success</title>
     <link rel="stylesheet" href="../css/style.css" />
   </head>
-
   <body>
     <header class="divider">
       <div class="logo">
         <img src="../images/noun_Tent_2517.svg" alt="tent image for logo" />
-        <a href="../index.html"> Sleep<span class="highlight">Outside</span></a>
+        <a href="../index.html">
+          Sleep <span class="highlight">Outside</span>
+        </a>
       </div>
       <div class="cart">
         <a href="../cart/index.html">
@@ -44,21 +45,37 @@
         </a>
       </div>
     </header>
-
     <main class="divider">
-      <section class="products">
-        <h2>Top Products</h2>
-        <ul class="product-list">
-          <!-- Products will be inserted here -->
-        </ul>
+      <section class="success-message">
+        <div style="text-align: center; padding: 2rem;">
+          <h1 style="color: #4caf50; margin-bottom: 1rem;">🎉 Order Successful!</h1>
+          <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+            Thank you for your order! Your outdoor adventure gear is on its way.
+          </p>
+          <p style="margin-bottom: 2rem;">
+            You will receive a confirmation email shortly with your order details and tracking information.
+          </p>
+          <div style="margin: 2rem 0;">
+            <a href="../index.html" style="background-color: var(--primary-color); color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 4px; margin-right: 1rem;">
+              Continue Shopping
+            </a>
+            <a href="../product_listing/index.html?category=tents" style="background-color: var(--secondary-color); color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 4px;">
+              View All Products
+            </a>
+          </div>
+        </div>
       </section>
     </main>
-
     <footer>
       &copy;2025 ⛺ SleepOutside ⛺ WDD 330 ⛺ BYU-Idaho for BYU-Pathway
       Worldwide Online
     </footer>
-
-    <script src="../js/product-listing.js" type="module"></script>
+    <script>
+      // Clear cart badge since cart is now empty
+      const badge = document.querySelector('#cart-count');
+      if (badge) {
+        badge.style.display = 'none';
+      }
+    </script>
   </body>
 </html>

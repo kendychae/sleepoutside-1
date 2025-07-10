@@ -49,8 +49,69 @@ export function getParam(param) {
   return urlParams.get(param);
 }
 
-// Load header and footer (placeholder for now)
+// Load header and footer functionality
 export function loadHeaderFooter() {
-  // This would load header and footer if needed
-  // For now, it's just a placeholder
+  // Update cart badge on all pages
+  updateCartBadge();
+  
+  // Add event listeners for navigation if needed
+  // This is a placeholder for more complex header/footer functionality
+}
+
+// Update cart badge function
+function updateCartBadge() {
+  const cart = getLocalStorage('so-cart') || [];
+  const totalCount = cart.reduce((sum, item) => sum + (item.Quantity || 1), 0);
+  const badge = document.querySelector('#cart-count');
+  if (badge) {
+    badge.textContent = totalCount;
+    badge.style.display = totalCount > 0 ? 'inline' : 'none';
+  }
+}
+
+// Alert message function for displaying errors and success messages
+export function alertMessage(message, scroll = true, type = 'error') {
+  // create element to hold the alert
+  const alert = document.createElement('div');
+  // add a class to style the alert
+  alert.classList.add('alert');
+  if (type === 'success') {
+    alert.classList.add('success');
+  } else if (type === 'info') {
+    alert.classList.add('info');
+  }
+  // set the contents. You should have a message and an X or something the user can click on to remove
+  alert.innerHTML = `<p>${message}</p><span class="alert-close">&times;</span>`;
+
+  // add a listener to the alert to see if they clicked on the X
+  // if they did then remove the child
+  alert.addEventListener('click', function(e) {
+    if (e.target.classList.contains('alert-close')) {
+      const main = document.querySelector('main');
+      if (main && main.contains(this)) {
+        main.removeChild(this);
+      }
+    }
+  });
+
+  // add the alert to the top of main
+  const main = document.querySelector('main');
+  if (main) {
+    main.prepend(alert);
+  }
+
+  // make sure they see the alert by scrolling to the top of the window
+  // you may not always want to do this...so default to scroll=true, but allow it to be passed in and overridden.
+  if (scroll) {
+    window.scrollTo(0, 0);
+  }
+
+  // Auto-remove success messages after 3 seconds
+  if (type === 'success') {
+    setTimeout(() => {
+      if (alert.parentNode) {
+        alert.parentNode.removeChild(alert);
+      }
+    }, 3000);
+  }
 }
