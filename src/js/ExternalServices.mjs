@@ -1,11 +1,17 @@
-const baseURL = import.meta.env.VITE_SERVER_URL;
+const baseURL = import.meta.env.VITE_SERVER_URL || 'https://wdd330-backend.onrender.com/';
 
 async function convertToJson(res) {
-  const jsonResponse = await res.json();
-  if (res.ok) {
-    return jsonResponse;
-  } else {
-    throw { name: 'servicesError', message: jsonResponse };
+  try {
+    const jsonResponse = await res.json();
+    if (res.ok) {
+      return jsonResponse;
+    } else {
+      console.error('API Error:', res.status, res.statusText, jsonResponse);
+      throw { name: 'servicesError', message: jsonResponse };
+    }
+  } catch (error) {
+    console.error('JSON conversion error:', error);
+    throw error;
   }
 }
 
@@ -27,11 +33,15 @@ export default class ExternalServices {
 
   async findProductById(id) {
     try {
+      console.log(`Fetching product by ID: ${id} from ${baseURL}product/${id}`);
       const response = await fetch(`${baseURL}product/${id}`);
+      console.log('Response status:', response.status, response.statusText);
+      
       const data = await convertToJson(response);
+      console.log('Product data received:', data);
       return data.Result;
     } catch (err) {
-      console.error("Failed to fetch product by ID:", err);
+      console.error("Failed to fetch product by ID:", id, err);
       return null;
     }
   }
