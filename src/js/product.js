@@ -22,7 +22,6 @@ async function addToCartHandler(e) {
   if (product) {
     addProductToCart(product);
     alertMessage(`${product.Name} has been added to your cart!`, false, 'success');
-    animateCartIcon(); // Trigger cart animation
   } else {
     alertMessage("Product not found.", true);
     console.error("Product not found for ID:", id);
