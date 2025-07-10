@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, animateCartIcon } from "./utils.mjs";
 
 // Adjust this if your images folder moves
 const imageBasePath = "../images/";
@@ -124,6 +124,11 @@ function updateQuantity(productId, change) {
     
     setLocalStorage("so-cart", cartItems);
     renderCartContents();
+    
+    // Animate cart icon when quantity changes
+    if (change > 0) {
+      animateCartIcon();
+    }
   }
 }
 

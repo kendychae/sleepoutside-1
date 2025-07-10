@@ -1,4 +1,4 @@
-import { getLocalStorage, setLocalStorage, qs, getParam, alertMessage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, qs, getParam, alertMessage, animateCartIcon } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
 
 const productId = getParam("id");
@@ -22,6 +22,7 @@ async function addToCartHandler(e) {
   if (product) {
     addProductToCart(product);
     alertMessage(`${product.Name} has been added to your cart!`, false, 'success');
+    animateCartIcon(); // Trigger cart animation
   } else {
     alertMessage("Product not found.", true);
     console.error("Product not found for ID:", id);

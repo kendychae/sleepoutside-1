@@ -58,6 +58,32 @@ export function loadHeaderFooter() {
   // This is a placeholder for more complex header/footer functionality
 }
 
+// Animate cart icon when item is added
+export function animateCartIcon() {
+  const cartIcon = document.querySelector('.cart-icon');
+  const cartCount = document.querySelector('#cart-count');
+  
+  if (cartIcon) {
+    // Add bounce animation to cart icon
+    cartIcon.classList.add('bounce');
+    
+    // Remove animation class after animation completes
+    setTimeout(() => {
+      cartIcon.classList.remove('bounce');
+    }, 600);
+  }
+  
+  if (cartCount && cartCount.style.display !== 'none') {
+    // Add pulse animation to cart count
+    cartCount.classList.add('cart-count-pulse');
+    
+    // Remove animation class after animation completes
+    setTimeout(() => {
+      cartCount.classList.remove('cart-count-pulse');
+    }, 400);
+  }
+}
+
 // Update cart badge function
 function updateCartBadge() {
   const cart = getLocalStorage('so-cart') || [];
