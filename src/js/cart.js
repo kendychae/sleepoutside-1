@@ -6,6 +6,10 @@ const imageBasePath = "../images/";
 // Fixes image paths to be relative to the cart page
 function fixImagePath(relativePath) {
   if (!relativePath) return "";
+  // If the path already starts with "images/", just prepend the base path
+  if (relativePath.startsWith("images/")) {
+    return imageBasePath + relativePath.replace(/^images\//, "");
+  }
   // Remove any leading ../ from the path and prepend imageBasePath
   return imageBasePath + relativePath.replace(/^(\.\.\/)+images\//, "");
 }

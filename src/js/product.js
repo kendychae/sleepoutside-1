@@ -61,14 +61,19 @@ async function displayProductDetails() {
 
     console.log("Product loaded successfully:", product);
 
-    // Use the API's image structure
-    const imageUrl =
-      product.Images?.PrimaryLarge || product.Images?.PrimaryMedium || "";
+    // Use responsive images based on screen size
+    const primaryLarge = product.Images?.PrimaryLarge || "";
+    const primaryMedium = product.Images?.PrimaryMedium || "";
+    const fallbackImage = product.Image || primaryMedium || primaryLarge;
 
     detailContainer.innerHTML = `
       <h3>${product.Brand?.Name || ""}</h3>
       <h2>${product.Name}</h2>
-      <img src="${imageUrl}" alt="${product.Name}">
+      <picture>
+        <source media="(min-width: 1200px)" srcset="${primaryLarge || fallbackImage}">
+        <source media="(min-width: 769px)" srcset="${primaryMedium || fallbackImage}">
+        <img src="${primaryMedium || fallbackImage}" alt="${product.Name}" class="responsive-image">
+      </picture>
       <p class="price">$${product.FinalPrice}</p>
       <p class="description">${product.DescriptionHtmlSimple || ""}</p>
       <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
